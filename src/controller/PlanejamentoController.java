@@ -17,9 +17,21 @@ public class PlanejamentoController {
         this.persistencia = new ArquivoPersistenciaService();
     }
 
+    public void novoPlanejamento() {
+        this.planejamento = new Planejamento();
+    }
+
     public void cadastrarParticipante(int codigo, String nome, double orcamento) {
         Participante p = new Participante(codigo, nome, orcamento);
         planejamento.adicionarParticipante(p);
+    }
+
+    public void editarParticipante(int codigo, String novoNome, double novoOrcamento) {
+        planejamento.atualizarParticipante(codigo, novoNome, novoOrcamento);
+    }
+
+    public void excluirParticipante(Participante p) {
+        planejamento.removerParticipante(p);
     }
 
     public void cadastrarDespesaFixa(String desc, double valor, List<Participante> envolvidos) {
@@ -30,6 +42,11 @@ public class PlanejamentoController {
     public void cadastrarDespesaPorPessoa(String desc, double valorUnitario, List<Participante> envolvidos) {
         Despesa d = new DespesaPorPessoa(desc, valorUnitario, envolvidos);
         planejamento.adicionarDespesa(d);
+    }
+
+    public void editarDespesa(int index, String desc, double valor, boolean fixa, List<Participante> envolvidos) {
+        Despesa nova = fixa ? new DespesaFixa(desc, valor, envolvidos) : new DespesaPorPessoa(desc, valor, envolvidos);
+        planejamento.atualizarDespesa(index, nova);
     }
 
     public void excluirDespesa(int index) {

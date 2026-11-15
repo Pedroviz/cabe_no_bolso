@@ -1,7 +1,6 @@
 package view;
 
 import controller.PlanejamentoController;
-
 import javax.swing.*;
 
 public class MainFrame extends JFrame {
@@ -22,13 +21,15 @@ public class MainFrame extends JFrame {
 
         painelParticipantes = new PainelParticipantes(controlador);
         painelDespesas = new PainelDespesas(controlador);
-        painelResumo = new PainelResumo(controlador);
+        painelResumo = new PainelResumo(controlador, () -> {
+            painelParticipantes.atualizarLista();
+            painelDespesas.atualizarCheckboxes();
+        });
 
         abas.add("Participantes", painelParticipantes);
         abas.add("Despesas", painelDespesas);
         abas.add("Resumo", painelResumo);
 
-        // Atualiza os checkboxes de despesas sempre que trocar para a aba de despesas
         abas.addChangeListener(e -> {
             if (abas.getSelectedComponent() == painelDespesas) {
                 painelDespesas.atualizarCheckboxes();

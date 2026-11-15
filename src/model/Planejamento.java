@@ -21,28 +21,53 @@ public class Planejamento implements Serializable {
             }
         }
         participantes.add(p);
+        participantes.sort(Comparator.comparingInt(Participante::getCodigo));
+    }
+
+    public void atualizarParticipante(int codigo, String novoNome, double novoOrcamento) {
+        for (Participante p : participantes) {
+            if (p.getCodigo() == codigo) {
+                p.setNome(novoNome);
+                p.setOrcamento(novoOrcamento);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Participante não encontrado.");
     }
 
     public void adicionarDespesa(Despesa d) {
         despesas.add(d);
     }
 
-    public void removerDespesa(int index) {
-        if (index >= 0 && index < despesas.size()) {
-            despesas.remove(index);
+    public void atualizarDespesa(int index, Despesa novaDespesa) {
+        if (index < 0 || index >= despesas.size()) {
+            throw new IllegalArgumentException("Selecione uma despesa válida para editar.");
         }
+        despesas.set(index, novaDespesa);
+    }
+
+    public void removerDespesa(int index) {
+        if (index < 0 || index >= despesas.size()) {
+            throw new IllegalArgumentException("Selecione uma despesa na lista para excluir.");
+        }
+        despesas.remove(index);
     }
 
     public boolean participantePossuiDespesa(Participante p) {
         for (Despesa d : despesas) {
-            if (d.getParticipantesEnvolvidos().contains(p)) {
-                return true;
+            for (Participante env : d.getParticipantesEnvolvidos()) {
+                if (env.getCodigo() == p.getCodigo()) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
     public void removerParticipante(Participante p) {
+        if (p == null) {
+            throw new IllegalArgumentException("Selecione um participante para excluir.");
+        }
         if (participantePossuiDespesa(p)) {
             throw new IllegalStateException("Não é possível excluir participante vinculado a despesas.");
         }
@@ -53,7 +78,7 @@ public class Planejamento implements Serializable {
     public List<Despesa> getDespesas() { return despesas; }
 
     public Map<Participante, Double> calcularCustosTotais() {
-        Map<Participante, Double> mapaCustos = new HashMap<>();
+        Map<Participante, Double> mapaCustos = new LinkedHashMap<>();
         for (Participante p : participantes) {
             mapaCustos.put(p, 0.0);
         }
@@ -69,6 +94,6 @@ public class Planejamento implements Serializable {
         for (double val : custos.values()) {
             total += val;
         }
-        return total;
+        return Math.round(total * 100.0) / 100.0;
     }
 }
