@@ -1,4 +1,4 @@
-# Cabe no bolso - Planejador de Despesas Compartilhadas
+# Cabe no Bolso - Planejador de Despesas Compartilhadas
 
 Aplicação desenvolvida em Java com interface gráfica Swing para planejamento e rateio de despesas compartilhadas, aplicando o padrão de arquitetura MVC e Orientação a Objetos.
 
@@ -99,3 +99,26 @@ cabe_no_bolso/
      - **Ana**: R$ 75,00 (Excede R$ 5,00)
      - **Bruno**: R$ 60,00 (Dentro do orçamento)
      - **Carla**: R$ 75,00 (Excede R$ 5,00)
+
+---
+
+## 📦 Passos para Criar o Repositório no GitHub e Subir o Código
+
+1. **Criar o Repositório no GitHub**:
+   - Acesse [GitHub](https://github.com) e faça login.
+   - Clique no botão **"+"** no canto superior direito > **"New repository"**.
+   - Nome do repositório: **`cabe-no-bolso`**.
+   - Mantenha como **Público**.
+   - **Não assinale** as opções de inicializar com README ou .gitignore.
+   - Clique em **"Create repository"** e copie o link gerado.
+
+2. **Executar os Comandos do Git no VS Code**:
+   - Abra o terminal integrado no diretório do projeto e execute:
+   ```bash
+   git init
+   git add .
+   git commit -m "feat: estrutura inicial da aplicação MVC e documentacao README"
+   git branch -M main
+   git remote add origin <SEU_URL_DO_GITHUB>
+   git push -u origin main
+   ```
